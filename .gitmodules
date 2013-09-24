@@ -10,3 +10,6 @@
 [submodule "recipes/modules/python"]
 	path = recipes/modules/python
 	url = https://github.com/stankevich/puppet-python.git
+[submodule "src"]
+	path = src
+	url = git@github.com:JustinTW/NextBBSAPI.git

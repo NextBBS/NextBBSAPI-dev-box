@@ -70,7 +70,7 @@ class pre_setttings {
 
   exec { 'root_add_ssh_folder':
     command =>
-      "${root_bash_prefix} 'mkdir -p /root/.ssh"
+      "${root_bash_prefix} 'mkdir -p /root/.ssh'"
   }
 }
 
@@ -92,10 +92,10 @@ class post_install_packages {
 
   python::pip { 'virtualenvwrapper': }
 
-  package { 'grunt-cli':
-    ensure   => present,
+  package { ['grunt-cli', 'coffee-script', 'mocha', 'docco']:
+    ensure => present,
     provider => 'npm',
-    require  => Package['nodejs']
+    require => Package['nodejs']
   }
 }
 
@@ -116,6 +116,13 @@ class post_settings {
       "${root_bash_prefix} 'rm /var/www/app -rf && \
       ln -s -f /vagrant /var/www/app'",
     require => File['web_folder']
+  }
+
+  exec { 'install_npm_requires':
+    command =>
+      "${root_bash_prefix} 'cd /vagrant/src && \
+      npm install --no-bin-links'",
+    require => Package['nodejs']
   }
 }
 
