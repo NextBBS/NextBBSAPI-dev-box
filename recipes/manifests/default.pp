@@ -97,6 +97,13 @@ class post_install_packages {
     provider => 'npm',
     require => Package['nodejs']
   }
+
+  exec { 'install_npm_requires':
+    command =>
+      "${root_bash_prefix} 'cd /vagrant/src && \
+      npm install --no-bin-links'",
+    require => Package['nodejs']
+  }
 }
 
 class { 'post_install_packages':
@@ -116,13 +123,6 @@ class post_settings {
       "${root_bash_prefix} 'rm /var/www/app -rf && \
       ln -s -f /vagrant /var/www/app'",
     require => File['web_folder']
-  }
-
-  exec { 'install_npm_requires':
-    command =>
-      "${root_bash_prefix} 'cd /vagrant/src && \
-      npm install --no-bin-links'",
-    require => Package['nodejs']
   }
 }
 
